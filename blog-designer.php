@@ -133,11 +133,9 @@ function wp_blog_designer_front_stylesheet(){
 }
 
 function wp_blog_designer_scripts() {
-
     wp_enqueue_script('jquery');
     wp_enqueue_script('cpicker', plugins_url('/js/cpicker.js', __FILE__), '1.2');
-    wp_enqueue_script('eye', plugins_url('/js/eye.js', __FILE__), '2.0');
-    wp_enqueue_script('bound', plugins_url('/js/bound.js', __FILE__), '1.8.5');
+    wp_enqueue_script('eye', plugins_url('/js/eye.js', __FILE__), '2.0');    
     wp_enqueue_script('designer', plugins_url('/js/designer.js', __FILE__), '1.0.2');
 }
 
@@ -198,12 +196,8 @@ function wp_blog_designer_views() {
         $cat = '';
     }
 
-
-
-
     $posts_per_page = get_option('posts_per_page');
     $paged = lumiapaged();
-
 
     $posts = query_posts(array('cat' => $cat, 'posts_per_page' => $posts_per_page, 'paged' => $paged));
     $alter= 1;
@@ -503,9 +497,8 @@ function wp_spektrum_template() {
                     ?>                    
                 </span>
     <?php endif; ?>
-        </div>        
-    </div>
-    <div class="social-component spektrum-social">
+        </div>
+        <div class="social-component spektrum-social">
         <?php if (get_option('facebook_link') == 0): ?>
             <a href="<?php echo 'https://www.facebook.com/dialog/share?&href=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
         <?php endif; ?>
@@ -524,8 +517,9 @@ function wp_spektrum_template() {
         <?php if (get_option('pinterest_link') == 0): ?>
             <a href="<?php echo '//pinterest.com/pin/create/button/?url=' . get_the_permalink(); ?>" target= _blank class="pinterest"> <i class="fa fa-pinterest"></i></a>
     <?php endif; ?>
+    </div>   
     </div>
-    </div>
+     
     <?php
 }
 
