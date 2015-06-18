@@ -45,6 +45,7 @@ An answer to that question.
 5. Blog Designer by 'Design4' theme layout
 
 == Changelog ==
+version 1.5 : fixed conflict with Visual composer plugin.
 
 
 == Upgrade notice ==
