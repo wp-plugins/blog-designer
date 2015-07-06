@@ -1,9 +1,11 @@
 <?php
 /**
   Plugin Name: Blog Designer
-  Plugin URI:
+  Plugin URI:http://www.solwininfotech.com/
   Description: To make your blog design more attractive and colorful.
-  Version: 1.4.3  
+  Author: Solwin Infotech
+  Author URI: http://www.solwininfotech.com/
+  Version: 1.5
   License: GPLv2 or later
  */
 add_action('admin_menu', 'wp_blog_designer_add_menu');
