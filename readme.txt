@@ -3,7 +3,7 @@ Contributors: solwininfotech
 Tags: blog design, blog layout, blog layout design, custom blog layout, modify blog design, blog, design, site design, Blog
 Requires at least: 3.0
 Tested up to: 4.2.2
-Stable tag: 1.5
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,7 +45,8 @@ An answer to that question.
 5. Blog Designer by 'Design4' theme layout
 
 == Changelog ==
-version 1.5 : fixed conflict with Visual composer plugin.
+version 1.5.0 : fixed conflict with Visual composer plugin.
+Version 1.5.1 : Fixed Facebook sharelink issue.
 
 
 == Upgrade notice ==

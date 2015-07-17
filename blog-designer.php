@@ -5,7 +5,7 @@
   Description: To make your blog design more attractive and colorful.
   Author: Solwin Infotech
   Author URI: http://www.solwininfotech.com/
-  Version: 1.5
+  Version: 1.5.1
   License: GPLv2 or later
  */
 add_action('admin_menu', 'wp_blog_designer_add_menu');
@@ -199,7 +199,7 @@ function wp_blog_designer_views() {
     }
 
     $posts_per_page = get_option('posts_per_page');
-    $paged = lumiapaged();
+    $paged = blogdesignerpaged();
 
     $posts = query_posts(array('cat' => $cat, 'posts_per_page' => $posts_per_page, 'paged' => $paged));
     $alter= 1;
@@ -220,7 +220,7 @@ function wp_blog_designer_views() {
         } elseif ($theme == 'spektrum') {
             
             $class = ' spektrum';
-            wp_spektrum_template();
+            wp_desgin3_template();
         } elseif ($theme == 'evolution') {
             if(get_option('template_alternativebackground') == 0){
                 if($alter % 2 == 0){
@@ -236,7 +236,7 @@ function wp_blog_designer_views() {
     endwhile;
 
     echo '<div class="wl_pagination_box' . $class . '">';
-    lumia_pagination();
+    designer_pagination();
     echo '</div>';
 
     wp_reset_query();
@@ -315,7 +315,7 @@ function wp_classical_template() {
         </div>
         <div class="social-component">
             <?php if (get_option('facebook_link') == 0): ?>
-                <a href="<?php echo 'https://www.facebook.com/dialog/share?&href=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
+                <a href="<?php echo 'https://www.facebook.com/sharer/sharer.php?u=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
             <?php endif; ?>
             <?php if (get_option('twitter_link') == 0): ?>
                 <a href="<?php echo 'http://twitter.com/share?&url=' . get_the_permalink(); ?>" target= _blank class="twitter"><i class="fa fa-twitter"></i></a>
@@ -415,7 +415,7 @@ function wp_lightbreeze_template($alterclass) {
         } ?>
         <div class="social-component">
             <?php if (get_option('facebook_link') == 0): ?>
-                <a href="<?php echo 'https://www.facebook.com/dialog/share?&href=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
+                <a href="<?php echo 'https://www.facebook.com/sharer/sharer.php?u=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
             <?php endif; ?>
             <?php if (get_option('twitter_link') == 0): ?>
                 <a href="<?php echo 'http://twitter.com/share?&url=' . get_the_permalink(); ?>" target= _blank class="twitter"><i class="fa fa-twitter"></i></a>
@@ -439,7 +439,7 @@ function wp_lightbreeze_template($alterclass) {
 
 /* * **************************** display function for spektrum layout ************************************ */
 
-function wp_spektrum_template() {
+function wp_desgin3_template() {
     ?>
 
     <div class="blog_template spektrum">
@@ -502,7 +502,7 @@ function wp_spektrum_template() {
         </div>
         <div class="social-component spektrum-social">
         <?php if (get_option('facebook_link') == 0): ?>
-            <a href="<?php echo 'https://www.facebook.com/dialog/share?&href=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
+            <a href="<?php echo 'https://www.facebook.com/sharer/sharer.php?u=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
         <?php endif; ?>
         <?php if (get_option('twitter_link') == 0): ?>
             <a href="<?php echo 'http://twitter.com/share?&url=' . get_the_permalink(); ?>" target= _blank class="twitter"><i class="fa fa-twitter"></i></a>
@@ -598,7 +598,7 @@ function wp_evolution_template($alterclass) {
         <?php endif; ?>
         <div class="social-component">
             <?php if (get_option('facebook_link') == 0): ?>
-                <a href="<?php echo 'https://www.facebook.com/dialog/share?&href=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
+                <a href="<?php echo 'https://www.facebook.com/sharer/sharer.php?u=' . get_the_permalink(); ?>" target= _blank class="facebook-share"><i class="fa fa-facebook"></i></a>
             <?php endif; ?>
             <?php if (get_option('twitter_link') == 0): ?>
                 <a href="<?php echo 'http://twitter.com/share?&url=' . get_the_permalink(); ?>" target= _blank class="twitter"><i class="fa fa-twitter"></i></a>
@@ -870,7 +870,7 @@ function wp_blog_designer_menu_function() {
     <?php
 }
 
-function lumia_pagination($args = array()) {
+function designer_pagination($args = array()) {
 
     if (!is_array($args)) {
         $argv = func_get_args();
@@ -1041,7 +1041,7 @@ function lumia_pagination($args = array()) {
     }
     $out = $before . "<div class='wl_pagination'>\n$out\n</div>" . $after;
 
-    $out = apply_filters('lumia_pagination', $out);
+    $out = apply_filters('designer_pagination', $out);
 
     if (!$echo)
         return $out;
@@ -1105,7 +1105,7 @@ class LBNavi_Call {
 
 }
 
-function lumiapaged() {
+function blogdesignerpaged() {
     if (strstr($_SERVER['REQUEST_URI'], 'paged') || strstr($_SERVER['REQUEST_URI'], 'page')) {
         if (isset($_REQUEST['paged'])) {
             $paged = $_REQUEST['paged'];
