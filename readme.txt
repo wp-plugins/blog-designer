@@ -46,6 +46,7 @@ An answer to that question.
 == Changelog ==
 version 1.5.0 : fixed conflict with Visual composer plugin.
 Version 1.5.1 : Fixed Facebook sharelink issue.
+Version 1.5.2 : Fixed confliction with wordpress front page setting
 
 
 == Upgrade notice ==

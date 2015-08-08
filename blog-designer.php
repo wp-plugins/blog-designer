@@ -5,7 +5,7 @@
   Description: To make your blog design more attractive and colorful.
   Author: Solwin Infotech
   Author URI: http://www.solwininfotech.com/
-  Version: 1.5.1
+  Version: 1.5.2
   License: GPLv2 or later
  */
 add_action('admin_menu', 'wp_blog_designer_add_menu');
@@ -25,16 +25,6 @@ function wp_blog_designer_add_menu() {
 
 function wp_blog_designer_reg_function() {
 
-    if ('posts' == get_option('show_on_front') && '0' == get_option('page_on_front')) {
-        update_option("show_on_front", 'page');
-        update_option("page_on_front", 2);
-
-        $templates = array();
-        $templates['ID'] = 2;
-        $templates['post_content'] = '[wp_blog_designer]';
-        wp_update_post($templates);
-    }
-
     $settings = get_option("wp_blog_designer_settings");
     if (empty($settings)) {
         $settings = array(
@@ -49,14 +39,13 @@ function wp_blog_designer_reg_function() {
             'template_alterbgcolor' => '#ffffff',
             'template_titlebackcolor' => '#ffffff'
         );
-
-        add_option("wp_blog_designer_settings", $settings, '', 'yes');
+        update_option("wp_blog_designer_settings", $settings, '', 'yes');
     }
 }
 
-if ($_REQUEST['action'] === 'save' && $_REQUEST['updated'] === 'true') {
+if ( isset($_REQUEST['action']) && $_REQUEST['action'] === 'save' && isset($_REQUEST['updated']) && $_REQUEST['updated'] === 'true') {
 
-    update_option("page_on_front", $_POST['page_on_front']);
+    update_option("blog_page_display", $_POST['blog_page_display']);
     update_option("posts_per_page", $_POST['posts_per_page']);
     update_option("rss_use_excerpt", $_POST['rss_use_excerpt']);
     update_option("display_date", $_POST['display_date']);
@@ -67,25 +56,38 @@ if ($_REQUEST['action'] === 'save' && $_REQUEST['updated'] === 'true') {
     update_option("excerpt_length", $_POST['txtExcerptlength']);    
     update_option("read_more_text", $_POST['txtReadmoretext']);
     
-    update_option("template_alternativebackground", $_POST['template_alternativebackground']);
+    if(isset($_POST['template_alternativebackground']))
+        update_option("template_alternativebackground", $_POST['template_alternativebackground']);
+    else
+        update_option("template_alternativebackground", '');
     
-    update_option("social_icon_style", $_POST['social_icon_style']);
-    update_option("facebook_link", $_POST['facebook_link']);
-    update_option("twitter_link", $_POST['twitter_link']);
-    update_option("google_link", $_POST['google_link']);
-    update_option("dribble_link", $_POST['dribble_link']);
-    update_option("pinterest_link", $_POST['pinterest_link']);
-    update_option("instagram_link", $_POST['instagram_link']);
-    update_option("linkedin_link", $_POST['linkedin_link']);
-
-
-    $o_templates = array();
-    $o_templates['ID'] = 2;
-    $o_templates['post_content'] = '';
-    wp_update_post($o_templates);
+    if(isset($_POST['social_icon_style'])){
+        update_option("social_icon_style", $_POST['social_icon_style']);
+    }
+    if(isset($_POST['facebook_link'])){
+        update_option("facebook_link", $_POST['facebook_link']);
+    }
+    if(isset($_POST['twitter_link'])){
+         update_option("twitter_link", $_POST['twitter_link']);
+    }    
+    if(isset($_POST['google_link'])){
+         update_option("google_link", $_POST['google_link']);
+    }    
+    if(isset($_POST['dribble_link'])){
+         update_option("dribble_link", $_POST['dribble_link']);
+    }    
+    if(isset($_POST['pinterest_link'])){
+         update_option("pinterest_link", $_POST['pinterest_link']);
+    }    
+    if(isset($_POST['instagram_link'])){
+         update_option("instagram_link", $_POST['instagram_link']);
+    }    
+    if(isset($_POST['linkedin_link'])){
+        update_option("linkedin_link", $_POST['linkedin_link']);
+    }
 
     $templates = array();
-    $templates['ID'] = $_POST['page_on_front'];
+    $templates['ID'] = $_POST['blog_page_display'];
     $templates['post_content'] = '[wp_blog_designer]';
     wp_update_post($templates);
 
@@ -181,13 +183,14 @@ add_filter('excerpt_length', 'custom_excerpt_length', 999);
 function wp_blog_designer_views() {
 
     $settings = get_option("wp_blog_designer_settings");
-
     if (!isset($settings['template_name']) || empty($settings['template_name'])) {
         return '[wp_blog_designer] ' . __('Invalid shortcode', 'wp_blog_designer') . '';
     }
-
+    
     $theme = $settings['template_name'];
-    $cat = $settings['template_category'];
+    $cat = '';
+    if(isset($settings['template_category']))
+        $cat = $settings['template_category'];
 
     if (!empty($cat)) {
         foreach ($cat as $catObj):
@@ -203,10 +206,12 @@ function wp_blog_designer_views() {
 
     $posts = query_posts(array('cat' => $cat, 'posts_per_page' => $posts_per_page, 'paged' => $paged));
     $alter= 1;
+    $class= '';
     while (have_posts()) : the_post();
         if ($theme == 'classical') {
+            $class = ' classical';
             wp_classical_template();
-        } elseif ($theme == 'lightbreeze') {            
+        } elseif ($theme == 'lightbreeze') {
             if(get_option('template_alternativebackground') == 0){
                 if($alter % 2 == 0){
                         $alter_class = ' alternative-back';
@@ -217,8 +222,7 @@ function wp_blog_designer_views() {
             $class = ' lightbreeze';
             wp_lightbreeze_template($alter_class);
             $alter ++;
-        } elseif ($theme == 'spektrum') {
-            
+        } elseif ($theme == 'spektrum') {            
             $class = ' spektrum';
             wp_desgin3_template();
         } elseif ($theme == 'evolution') {
@@ -638,7 +642,7 @@ function wp_blog_designer_menu_function() {
                                 <tr>
                                     <td><?php _e('Blog page displays', 'wp-blog-desiner') ?></td>
                                     <td>
-    <?php printf(__('%s'), wp_dropdown_pages(array('name' => 'page_on_front', 'echo' => 0, 'show_option_none' => __('&mdash; Select &mdash;'), 'option_none_value' => '0', 'selected' => get_option('page_on_front')))); ?>
+    <?php printf(__('%s'), wp_dropdown_pages(array('name' => 'blog_page_display', 'echo' => 0, 'show_option_none' => __('&mdash; Select &mdash;'), 'option_none_value' => '0', 'selected' => get_option('blog_page_display')))); ?>
                                     </td>
                                 </tr>
                                 <tr>
